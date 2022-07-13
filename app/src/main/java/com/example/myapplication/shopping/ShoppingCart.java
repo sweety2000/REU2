@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.shopping;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -7,7 +7,7 @@ public class ShoppingCart {
 
     private List<ShoppingItem> shopping_cart;
 
-    ShoppingCart() {
+    public ShoppingCart() {
         this.shopping_cart = new ArrayList<>();
     }
 

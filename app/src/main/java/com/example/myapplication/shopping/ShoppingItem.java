@@ -5,7 +5,7 @@ public class ShoppingItem {
     private String name;
     private String brand;
 
-    ShoppingItem(String name, String brand) {
+    public ShoppingItem(String name, String brand) {
         this.name = name;
         this.brand = brand;
     }

@@ -1,0 +1,2 @@
+DROP TABLE IF EXISTS cart;
+CREATE TABLE cart ();

@@ -9,5 +9,5 @@ CATEGORIES = #ITEMS
 
 predict = model.predict(test_array) #this is prediction
 
-
 #then we return predict to user and save it to shopping lists
+

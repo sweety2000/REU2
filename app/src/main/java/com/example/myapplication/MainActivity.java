@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.os.Bundle;
 
+import com.example.myapplication.sql.MySQLConnector;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+
+    private MySQLConnector sqlConnector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +47,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // TODO: Remove this
-        // Nick was here
+        ///////////////////////////////////////////////////////
+
+        try {
+            sqlConnector = new MySQLConnector();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
+    // TODO: Close connection when app is closed
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

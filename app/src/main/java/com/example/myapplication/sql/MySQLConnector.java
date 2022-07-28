@@ -12,31 +12,38 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.Scanner;
 
 public class MySQLConnector {
 
-    MySQLConnector() throws Exception {
+    private Connection connection;
+
+    public MySQLConnector() throws Exception {
         System.out.println("Loading application properties");
         Properties properties = new Properties();
-        properties.load(MySQLConnector.class.getClassLoader().getResourceAsStream("application.properties"));
+        properties.load(Objects.requireNonNull(MySQLConnector.class.getClassLoader()).getResourceAsStream("application.properties"));
 
         System.out.println("Connection to the database");
-        Connection connection = DriverManager.getConnection(properties.getProperty("url"), properties);
+        connection = DriverManager.getConnection(properties.getProperty("url"), properties);
         System.out.println("Database connection test: " + connection.getCatalog());
 
         System.out.println("Create database schema");
-        Scanner scanner = new Scanner(MySQLConnector.class.getClassLoader().getResourceAsStream("schema.sql"));
+        Scanner scanner = new Scanner(Objects.requireNonNull(MySQLConnector.class.getClassLoader()).getResourceAsStream("schema.sql"));
         Statement statement = connection.createStatement();
 
         while (scanner.hasNextLine()) {
             statement.execute(scanner.nextLine());
         }
+    }
 
-        System.out.println("Closing database connection");
-        connection.close();
-        AbandonedConnectionCleanupThread.uncheckedShutdown();
+    private void closeConnection() throws SQLException {
+        if (connection != null && !connection.isClosed()) {
+            System.out.println("Closing database connection");
+            connection.close();
+            AbandonedConnectionCleanupThread.uncheckedShutdown();
+        }
     }
 
     private void insertData(@NonNull Connection connection) throws SQLException {
@@ -78,6 +85,10 @@ public class MySQLConnector {
         delete.executeUpdate();
 
         readData(connection);
+    }
+
+    public Connection getConnection() {
+        return connection;
     }
 
 }
